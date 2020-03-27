@@ -1,0 +1,17 @@
+package bloomfilter
+
+import (
+	"testing"
+)
+
+func TestBloomFilter(t *testing.T) {
+	bf := NewBloomFilter(10000, 5)
+	d1, d2 := []byte("Hello"), []byte("World")
+	bf.Add(d1)
+	if !bf.Check(d1) {
+		t.Errorf("%s should be in the BloomFilter", d1)
+	}
+	if bf.Check(d2) {
+		t.Errorf("%s shouldn't be in the BloomFilter", d2)
+	}
+}
