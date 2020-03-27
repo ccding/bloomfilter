@@ -4,7 +4,7 @@ import (
 	"hash"
 	"hash/fnv"
 
-	ba "github.com/golang-collections/go-datastructures/bitarray"
+	ba "github.com/Workiva/go-datastructures/bitarray"
 )
 
 type BloomFilter struct {
@@ -53,4 +53,17 @@ func (bf *BloomFilter) Check(b []byte) bool {
 		res = res && r
 	}
 	return res
+}
+
+func (bf *BloomFilter) Dump() ([]byte, error) {
+	return ba.Marshal(bf.bitmap)
+}
+
+func (bf *BloomFilter) Load(bs []byte) error {
+	bm, err := ba.Unmarshal(bs)
+	if err != nil {
+		return err
+	}
+	bf.bitmap = bm
+	return nil
 }
